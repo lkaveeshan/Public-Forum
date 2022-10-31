@@ -24,43 +24,36 @@ export class EditBlogComponent implements OnInit {
     private router: Router
   ) { }
 
-  // Function to Submit Update
   updateBlogSubmit() {
-    this.processing = true; // Lock form fields
-    // Function to send blog object to backend
+    this.processing = true;
     this.blogService.editBlog(this.blog).subscribe(data => {
-      // Check if PUT request was a success or not
       if (!data.success) {
-        this.messageClass = 'alert alert-danger'; // Set error bootstrap class
-        this.message = data.message; // Set error message
-        this.processing = false; // Unlock form fields
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+        this.processing = false;
       } else {
-        this.messageClass = 'alert alert-success'; // Set success bootstrap class
-        this.message = data.message; // Set success message
-        // After two seconds, navigate back to blog page
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
         setTimeout(() => {
-          this.router.navigate(['/blog']); // Navigate back to route page
+          this.router.navigate(['/blog']);
         }, 2000);
       }
     });
   }
 
-  // Function to go back to previous page
   goBack() {
     this.location.back();
   }
 
   ngOnInit() {
-    this.currentUrl = this.activatedRoute.snapshot.params; // When component loads, grab the id
-    // Function to GET current blog with id in params
+    this.currentUrl = this.activatedRoute.snapshot.params;
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
-      // Check if GET request was success or not
       if (!data.success) {
-        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-        this.message = data.message; // Set error message
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
       } else {
-        this.blog = data.blog; // Save blog object for use in HTML
-        this.loading = false; // Allow loading of blog form
+        this.blog = data.blog;
+        this.loading = false;
       }
     });
 

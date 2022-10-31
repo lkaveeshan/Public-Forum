@@ -22,59 +22,50 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authGuard: AuthGuard
   ) {
-    this.createForm(); // Create Login Form when component is constructed
+    this.createForm();
   }
 
   // Function to create login form
   createForm() {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required], // Username field
-      password: ['', Validators.required] // Password field
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
-  // Function to disable form
   disableForm() {
-    this.form.controls['username'].disable(); // Disable username field
-    this.form.controls['password'].disable(); // Disable password field
+    this.form.controls['username'].disable();
+    this.form.controls['password'].disable();
   }
 
-  // Function to enable form
   enableForm() {
-    this.form.controls['username'].enable(); // Enable username field
-    this.form.controls['password'].enable(); // Enable password field
+    this.form.controls['username'].enable();
+    this.form.controls['password'].enable();
   }
 
-  // Functiont to submit form and login user
   onLoginSubmit() {
-    this.processing = true; // Used to submit button while is being processed
-    this.disableForm(); // Disable form while being process
-    // Create user object from user's input
+    this.processing = true;
+    this.disableForm();
     const user = {
-      username: this.form.get('username').value, // Username input field
-      password: this.form.get('password').value // Password input field
+      username: this.form.get('username').value,
+      password: this.form.get('password').value
     }
 
-    // Function to send login data to API
     this.authService.login(user).subscribe(data => {
-      // Check if response was a success or error
       if (!data.success) {
-        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-        this.message = data.message; // Set error message
-        this.processing = false; // Enable submit button
-        this.enableForm(); // Enable form for editting
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+        this.processing = false;
+        this.enableForm();
       } else {
-        this.messageClass = 'alert alert-success'; // Set bootstrap success class
-        this.message = data.message; // Set success message
-        // Function to store user's token in client local storage
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
         this.authService.storeUserData(data.token, data.user);
-        // After 2 seconds, redirect to dashboard page
         setTimeout(() => {
-          // Check if user was redirected or logging in for first time
           if (this.previousUrl) {
-            this.router.navigate([this.previousUrl]); // Redirect to page they were trying to view before
+            this.router.navigate([this.previousUrl]);
           } else {
-            this.router.navigate(['/dashboard']); // Navigate to dashboard view
+            this.router.navigate(['/dashboard']);
           }
         }, 2000);
       }
@@ -82,12 +73,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // On page load, check if user was redirected to login
     if (this.authGuard.redirectUrl) {
-      this.messageClass = 'alert alert-danger'; // Set error message: need to login
-      this.message = 'You must be logged in to view that page.'; // Set message
-      this.previousUrl = this.authGuard.redirectUrl; // Set the previous URL user was redirected from
-      this.authGuard.redirectUrl = undefined; // Erase previous URL
+      this.messageClass = 'alert alert-danger';
+      this.message = 'You must be logged in to view that page.';
+      this.previousUrl = this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl = undefined;
     }
   }
 

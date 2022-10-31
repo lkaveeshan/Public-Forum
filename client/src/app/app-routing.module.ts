@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from '@angular/router'; // CLI imports router
+import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -12,53 +12,52 @@ import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.c
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
-// Our Array of Angular 2 Routes
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent // Default Route
+    component: HomeComponent
   },
   {
     path: 'dashboard',
-    component: DashboardComponent, // Dashboard Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
-    component: RegisterComponent, // Register Route
-    canActivate: [NotAuthGuard] // User must NOT be logged in to view this route
+    component: RegisterComponent,
+    canActivate: [NotAuthGuard]
   },
   {
     path: 'login',
-    component: LoginComponent, // Login Route
-    canActivate: [NotAuthGuard] // User must NOT be logged in to view this route
+    component: LoginComponent,
+    canActivate: [NotAuthGuard]
   },
   {
     path: 'profile',
-    component: ProfileComponent, // Profile Route
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'blog',
-    component: BlogComponent, // Blog Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    component: BlogComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-blog/:id',
-    component: EditBlogComponent, // Edit Blog Route
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    component: EditBlogComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'delete-blog/:id',
-    component: DeleteBlogComponent, // Delete Blog Route
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    component: DeleteBlogComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user/:username',
-    component: PublicProfileComponent, // Public Profile Route
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    component: PublicProfileComponent,
+    canActivate: [AuthGuard]
   },
-  { path: '**', component: HomeComponent } // "Catch-All" Route
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({
